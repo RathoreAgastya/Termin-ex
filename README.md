@@ -1,12 +1,9 @@
 # terminal-in-python
-the name says it bro, a terminal in python.
 
+This a terminal made in python
 
-LSDJKH  GLKJH EKL HRK JASD OPSDI 
+It has many commands(some secret commands also >:) )
 
-'SFGLSDHF[]
-S
-]
-KJKLJJSD
-F; LLIKGFI LWS
-SGLA,SDNF OADF ;ASDLHF DKLFJASD
+If oyu don't know all the command
+
+you can type help in the terminal and it will show all the commands in the terminal.
