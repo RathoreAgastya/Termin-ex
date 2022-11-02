@@ -15,4 +15,4 @@ I will make a separate repository with an .exe file in it.
 
 Also for all python users, all the pip commands are written at the top in a multi-line comment :)
 
-![terminal-in-python-icon'](https://user-images.githubusercontent.com/78737482/195638973-faa37495-b107-4f7d-a7a9-e867615ad32d.png)
+![AGASTINALani](https://user-images.githubusercontent.com/78737482/199528559-25557e3f-f0f0-4d51-898b-35f3220eed85.gif)
