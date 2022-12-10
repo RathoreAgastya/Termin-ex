@@ -12,6 +12,17 @@ This is some cool things about it:
 
 Also for all python users, all the pip commands are written at the top in a multi-line comment :)
 
+# UPDATE
+
+#New update have been rolled out
+###It has the following features:
+- New directory changing commands
+- bd command to go back a directory
+- fd command to go forward a direcotry
+- sd command to show all directory and files in the current directory
+- help command spelling fixed
+- Contact me in Discord for further bugs and QnA: Agastya Rathore#7426
+
 ## Shoutouts
 
 Thanks for [Jambo199](https://github.com/Jambo199) for visiting my Respository
