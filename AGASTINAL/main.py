@@ -43,7 +43,7 @@ text to decimal          converts text to decimal
 flh                      for a flash light
 tts                      convert text to speech
 crash                    crashes the computer
-cf.                      creates a text file
+cf                       creates a text file
 del                      deletes the given file
 Zen of Python            A poem about python written by Tim Peter
 gen pass                 generates a random strong password
