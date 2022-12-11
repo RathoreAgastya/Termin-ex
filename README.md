@@ -12,7 +12,7 @@ This is some cool things about it:
 
 Also for all python users, all the pip commands are written at the top in a multi-line comment :)
 
-# UPDATE
+# UPDATE 2.0
 
 New update have been rolled out
 It has the following features:
