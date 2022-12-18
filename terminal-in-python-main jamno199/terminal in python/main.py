@@ -6,6 +6,7 @@ import random
 import socket
 import time
 import webbrowser
+import pyfiglet
 
 import cv2
 import pygame as py
@@ -61,23 +62,6 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 camera = "start microsoft.windows.camera:"
 
 
-# title
-title = """
-                * *       *                           *       * * 
-             *            * *                       * *       *    *
-          *               *   *                   *   *       *      *
-       *                  *     *               *     *       *        *
-     *                    *       *           *       *       *          *
-    *                     *         *       *         *       *           *
-    *                     *           *   *           *       *           *
-    *                     *             *             *       *           *
-    *                     *                           *       *           *
-     *                    *                           *       *          *
-       *                  *                           *       *        *
-          *               *                           *       *      *
-             *            *                           *       *    *
-                * *       *                           *       * *
-"""
 
 # Zen of python
 zenOfPython = """
@@ -345,7 +329,7 @@ for _ in range(4):
 mixer.music.set_volume(.7)
 
 #mixer.music.play()
-console.print(title, style="blue")
+console.print(pyfiglet.figlet_format("CMD"), style="blue")
 #time.sleep(4)
 
 run = True
