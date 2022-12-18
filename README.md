@@ -12,7 +12,7 @@ This is some cool things about it:
 
 Also for all python users, all the pip commands are written at the top in a multi-line comment :)
 
-# UPDATE 2.0
+# BETA 2.0
 
 New update have been rolled out
 It has the following features:
@@ -28,6 +28,14 @@ It has the following features:
 - help command spelling fixed
 
 - Contact me in Discord for further bugs and QnA: Agastya Rathore#7426
+
+
+# FULL RELEASE 
+
+- FROM NOW ON YOU CAN USE THE TERMINAL RIGHT FROM CMD
+This is How
+
+## How to set up the AGASTINAL
 
 
 ## Shoutouts
