@@ -1,7 +1,0 @@
-rich
-opencv-python
-pygame
-pyttsx3
-speedtest-cli
-pyaudio
-mov_cli
