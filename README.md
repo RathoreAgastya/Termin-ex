@@ -8,6 +8,8 @@ This is some cool things about it:
 
 - If you don't know all the command you can type help in the terminal and it will show all the commands in the terminal.
 
+- Shoutout to [Coolstormaction](https://github.com/Coolstormaction) for giving inspiration with his [Unix-commands-clone](https://github.com/Coolstormaction/unix-commands-clone)
+
 ### For all the non-python users. I will make a separate repository with an .exe file in it.
 
 Also for all python users, all the pip commands are written at the top in a multi-line comment :)
