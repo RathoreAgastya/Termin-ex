@@ -102,6 +102,8 @@ _ = 95
 
 def text_convert() :
     checkLp = True
+    letter = ""
+    
     while checkLp :
         letter = input("\nGive a letter or special symbol or brackets. Not a word or number: ")
         if len(letter) > 1 :
@@ -112,7 +114,7 @@ def text_convert() :
             checkLp = False
 
     convert_lp = True
-    while convert_lp :
+    while convert_lp:
         
         # are you ready for the longest if statement(I hope you are)
         if letter == "A" :
@@ -368,6 +370,7 @@ def text_convert() :
             print(f"The symbol in decimal is {_}.")
         else :
             print("This was made by a 11 yr old\nyou are not gonna expect much.")
+
 
 # this is the most unefficient way to convert symbols to decimal
 # This is when Agastya found out what ord() function does at 17:40 IST 01/11/22

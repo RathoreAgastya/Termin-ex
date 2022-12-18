@@ -1,27 +1,28 @@
+from __future__ import annotations
 
-"""
-pip install rich for text and loading bars
+import ctypes
+import os
+import random
+import socket
+import time
+import webbrowser
 
-pip install opencv-python for camera
+import cv2
+import pygame as py
+import pyttsx3
+import speedtest
 
-pip install pygame for flashlight
-
-pip install pyttsx3 for text to speech
-
-pip install speedtest-cli for speedtest
-
-pip install pyaudio for recording audio which is used in audio.py
-"""
-
-import socket, time, pyttsx3, pygame as py, ctypes, cv2, os, random, speedtest, webbrowser
-from rich.console import Console
+import cv2
+from mov_cli.__main__ import movcli
+from colored import colors, fore, style
 from pygame import mixer
-from textToDecimal import text_convert
-from delete import *
-from audio import recorder
-from donut import donut
-from cv2 import *
+from rich.console import Console
 from rich.progress import track
+
+from audio import recorder
+from delete import *
+from textToDecimal import text_convert
+
 
 console = Console()
 
@@ -31,36 +32,33 @@ ttsEngine = pyttsx3.init()
 
 
 help = """
-python hello             shows you how to write "Hello, world!" in python
-C hello                  shows you how to write "Hello, world!" in C
-java hello               shows you how to wirte "Hello, world!" in java
-ip                       shows you your ip (and no, it is not going public)
-open webcam              opens your camera
-bin                      a binary converter (all made by me)
-exit                     exit
-help                     how did you call this command if you didn't know this command
-text to decimal          converts text to decimal
-flh                      for a flash light
-tts                      convert text to speech
-crash                    crashes the computer
-cf                       creates a text file
-del                      deletes the given file
-Zen of Python            A poem about python written by Tim Peter
-gen pass                 generates a random strong password
-record voice             records voice for a given amount of time
-ping                     pings website that you enter
-bf converter             oh no
-ascii --table            tells the entire ascii table
-bd                       takes you back a directory
-fd "{directory name}"    takes you to the giving path
-sd                       Show you all the directories in the current directory
+python hello         shows you how to write "Hello, world!" in python
+C hello              shows you how to write "Hello, world!" in C
+java hello           shows you how to wirte "Hello, world!" in java
+ip                   shows you your ip (and no, it is not going public)
+open webcam          opens your camera
+bin                  a binary converter (all made by me)
+exit                 exit
+help                 how did you call this command if you didn't know this command
+text to decimal      converts text to decimal
+flh                  for a flash light
+tts                  convert text to speech
+crash                crashes the computer
+crtf                 creates a text file
+del {fileName}       deletes the given file
+Zen of Python        A poem about python written by Tim Peter
+gen pass             generates a random strong password
+record voice         records voice for a given amount of time
+ping                 pings website that you enter
+bf converter         oh no
+ascii --table        tells the entire ascii table
 """
 
 # variables
 host_name = socket.gethostname()
 local_ip = socket.gethostbyname(host_name)
+dir_path = os.path.dirname(os.path.realpath(__file__))
 camera = "start microsoft.windows.camera:"
-
 
 
 # title
@@ -80,8 +78,6 @@ title = """
              *            *                           *       *    *
                 * *       *                           *       * *
 """
-
-
 
 # Zen of python
 zenOfPython = """
@@ -147,24 +143,25 @@ Dec  Char                           Dec  Char     Dec  Char     Dec  Char
 31   US  (unit separator)            63  ?         95  _        127  DEL
 """
 
-
 # screen resolution
 user32 = ctypes.windll.user32
 user32.SetProcessDPIAware()
 [width, height] = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
 
 # screen
-def flash_light() :
+
+
+def flash_light():
     screen = py.display.set_mode((width, height))
     py.display.set_caption("Flashlight")
     rn = True
-    while rn :
+    while rn:
 
         screen.fill((255, 255, 255))
 
-        for event in py.event.get() :
-            if event.type == py.KEYDOWN :
-                if event.key == py.K_ESCAPE :
+        for event in py.event.get():
+            if event.type == py.KEYDOWN:
+                if event.key == py.K_ESCAPE:
                     rn = False
 
         py.display.update()
@@ -172,9 +169,8 @@ def flash_light() :
     py.quit()
 
 
-
-def SpeedTest() :
-    try :
+def SpeedTest():
+    try:
         test = speedtest.Speedtest(secure=True)
 
         mixer.music.load("wait music.ogg")
@@ -184,44 +180,46 @@ def SpeedTest() :
         download = test.download()
         upload = test.upload()
 
-        if (download // 1024) < 0 :
+        downloadType = None
+        uploadType = None
+
+        if (download // 1024) < 0:
             downloadType = "KBPS"
-        elif (download // 1024) > 0 :
+        elif (download // 1024) > 0:
             downloadType = "MBPS"
 
-        if (upload // 1024) < 0 :
+        if (upload // 1024) < 0:
             uploadType = "KBPS"
-        elif (upload // 1024) > 0 :
+        elif (upload // 1024) > 0:
             uploadType = "MBPS"
 
-        if downloadType == "MBPS" :
+        if downloadType == "MBPS":
             download = (download / 1024) / 1024
             mixer.music.stop()
             print(f"Download speed: {download:.2f} {downloadType}")
-        else :
+        else:
             mixer.music.stop()
             print(f"Download speed: {download:.2f} {downloadType}")
 
-        if uploadType == "MBPS" :
+        if uploadType == "MBPS":
             upload = (upload / 1024) / 1024
             mixer.music.stop()
             print(f"Download speed: {upload:.2f} {uploadType}")
-        else :
+        else:
             mixer.music.stop()
             print(f"Upload speed: {upload:.2f} {uploadType}")
-    except :
+    except:
         mixer.music.stop()
         print("Error 404 forbiden")
 
 
-
-def passwordGenerator() :
-    while True :
+def passwordGenerator():
+    while True:
         length = input("lenght of password(maximum length=74): ")
-        if length.isdigit() and int(length) <= 74 :
+        if length.isdigit() and int(length) <= 74:
             length = int(length)
             break
-        else :
+        else:
             print("Try again.")
 
     lower_case = "abcdefghijklmnopqrstuvwxyz"
@@ -232,39 +230,32 @@ def passwordGenerator() :
     ans = lower_case + upper_case + num + symbol
     password = "".join(random.sample(ans, length))
 
-    print(password)
+    print({password})
 
 
-def error(cmd) :
+def error(cmd):
     er_type = None
-    try :
+    try:
         cmd = float(cmd)
         er_type = "Float"
-    except :
+    except:
         er_type = "String"
 
-    if type(cmd) == "<class 'float'>" :
+    if type(cmd) == "<class 'float'>":
         cmd = str(cmd)
-    else :
+    else:
         pass
 
-    console.print(f"[red]{cmd} : The term [bold]'{cmd}'[/bold] is not recognized as the name of a cmdlet, function, script file, or operable program.[/]", style="bold red on black")
-    console.print("Check the spelling of the name, or if a path was included, verify that the path is correct and try again.", style="bold red on black")
-    console.print(f"At lin[red][bold]e:1 char:1[/red][/bold]\n+ [red]{cmd}[/red]\n+ ~~~~", style="bold red on black")
-    console.print(f"    + CategoryInfo          : ObjectNotFound: ([red]{cmd}:{er_type}[/red]) [], CommandNotFoundExpception", style="bold red on black")
-    console.print("    + FullyQualifiedErrorId : CommandNotFoundException", style="bold red on black")
 
-
-
-def run_cam() :
+def run_cam():
     webcam = cv2.VideoCapture(0)
 
-    while True :
+    while True:
         ret, frame = webcam.read()
 
-        if ret == True :
+        if ret == True:
             cv2.imshow("AGASTINAL WEBCAM YEAHHHHHHHHHHHH", frame)
-            key=cv2.waitKey(20) & 0xFF
+            key = cv2.waitKey(20) & 0xFF
             if key == ord("q"):
                 break
 
@@ -272,242 +263,226 @@ def run_cam() :
     cv2.destroyAllWindows()
 
 
-
-def bd():
-    crd = os.getcwd()
-    crd = list(crd.split('\\'))
-    crd.pop(-1)
-    crd = '\\'.join(crd)
-    os.chdir(crd)
-
-
-
-def binary_converter() :
+def binary_converter():
     binary = []
     check = True
-    while check :
-        number = console.input("Which number should be converted into binary: ")
-        if number.isdigit() :
+    number:int = 0
+    orig_num = ""
+
+    while check:
+        number = int(console.input(
+            "Which number should be converted into binary: "))
+        if str(number).isdigit():
             number = int(number)
             orig_num = number
             check = False
-        else :
+        else:
             console.print(f"{number} == not an integer")
-    
-    convert_lp = True
-    while convert_lp :
 
-        if (number % 2) == 1 :
+    convert_lp = True
+    while convert_lp:
+
+        if (number % 2) == 1:
             binary.append(1)
             number = number // 2
-            if number == 0 :
+            if number == 0:
                 binary.reverse()
                 console.print(f"{orig_num} in binary == {binary} :smile:.")
                 convert_lp = False
-            else :
+            else:
                 ...
-        else :
+        else:
             ...
 
-        if (number % 2) == 0 :
+        if (number % 2) == 0:
             binary.append(0)
             number = number // 2
-            if number == 0 :
+            if number == 0:
                 binary.reverse()
                 convert_lp = False
-            else :
+            else:
                 ...
-        else :
+        else:
             ...
 
 
-
-def crteFl() :
+def crteFl():
     flnm = input("\nWhat would you like to name your file?\n")
-    file = open(flnm+".txt", 'w') 
-    textInFl = input("\nWhat is the text which goes in the file?\n")
+    file = open(flnm+".txt", 'w')
+    textInFl = input("\nWhat == the text which goes in the file?\n")
     file.write(textInFl)
     file.close()
 
     print("The file has been created.")
 
 
+console.input("WElCOME!\nPress enter to continue")
 
-console.input("WElCOME TO AGASTNAL!\nPress enter to continue")
-
-for _ in track(range(20), description="setting up BIOS...") :
-    time.sleep(.2)
+for _ in track(range(20), description="setting up BIOS..."):
+    time.sleep(0.02)
     pass
-for _ in track(range(10), description="Loading commands...") :
-    time.sleep(.2)
+for _ in track(range(10), description="Loading commands..."):
+    time.sleep(0.02)
     pass
-for _ in track(range(25), description="Loading all packages...") :
-    time.sleep(.2)
+for _ in track(range(25), description="Loading all packages..."):
+    time.sleep(0.02)
     pass
-for _ in track(range(10), description="Setting up Python...") :
-    time.sleep(.2)
+for _ in track(range(10), description="Setting up Python..."):
+    time.sleep(0.02)
     pass
-for _ in track(range(20), description="Getting ip address...") :
-    time.sleep(.2)
+for _ in track(range(20), description="Getting ip address..."):
+    time.sleep(0.02)
     pass
-for _ in range(15) :
-    time.sleep(.2)
+for _ in range(4):
+    time.sleep(0.02)
     console.log("Getting kernel access")
-for _ in range(10) :
-    time.sleep(.2)
+for _ in range(4):
+    time.sleep(0.01)
     console.log("Loading terminal into command line")
 
-mixer.music.load("opening jingle.ogg")
+
+#mixer.music.load("opening jingle.ogg")
 mixer.music.set_volume(.7)
 
-mixer.music.play()
+#mixer.music.play()
 console.print(title, style="blue")
-time.sleep(4)
+#time.sleep(4)
 
 run = True
-while run :
+while run:
 
-    dir_path = os.getcwd()
     cmd = input(f"\nAT {dir_path}> ")
     i = cmd.lower()
 
-    if i == "python hello" :
+    if i == "python hello":
         console.print('print("Hello, world!")', style="bold green")
 
-    elif i == "c hello" :
-        console.print('#include <stdio.h>\n\nint main()\n{\n    printf("Hello, world!");\n   return 0;\n}', style="bold green")
+    elif i == "movies":
+        movcli()
 
-    elif i == "java hello" :
-        console.print('\nclass hello {\n    [bold green]public static void[/] main(String[]) {\n       System.out.println("Hello, world!");\n  }\n}')
+    elif i == "c hello":
+        console.print(
+            '#include <stdio.h>\n\nint main()\n{\n    printf("Hello, world!");\n   return 0;\n}', style="bold green")
 
-    elif i == ":)" :
+    elif i == "java hello":
+        console.print(
+            '\nclass hello {\n    [bold green]public static void[/] main(String[]) {\n       System.out.println("Hello, world!");\n  }\n}')
+
+    elif i == ":)":
         os.system(camera)
         console.print(f"I am watching you {host_name}😈😈😈.")
 
-    elif i == "ip" :
-        console.print(f"You needed your ip I guess, because why would you call th== command unless you don't know how to access your ip\nSooooooooooooooooooooooooo\nHere you go\n{local_ip}")
+    elif i == "ip":
+        console.print(
+            f"You needed your ip I guess, because why would you call th== command unless you don't know how to access your ip\nSooooooooooooooooooooooooo\nHere you go\n{local_ip}")
 
-    elif i == "am i preety?" :
+    elif i == "am i preety?":
         os.system(camera)
         console.print("NO!", style="bold red")
 
-    elif i == "open webcam" :
+    elif i == "open webcam":
         console.print("Press q to exit.")
         run_cam()
 
-    elif i == "bd":
-        bd()
-
-    elif i.startswith("fd "):
-        try: direc = i.split('"'); os.chdir(direc[1])
-        except: console.print("Directory not found or command given incorrectly", style="bold red")
-
-    elif i == "sd":
-        os.system("dir")
-
-    elif i == "bin" :
+    elif i == "bin":
         binary_converter()
 
-    elif i == "cls" :
+    elif i == "cls":
         os.system("cls")
 
-    elif i == "bf converter" :
+    elif i == "bf converter":
         print("NO, WE ARE NOT DOING THAT")
-        time.sleep(2)
+        #time.sleep(2)
         print("no no no no no no cant here you\nWhat, a python intrepeter")
-        time.sleep(1)
+        #time.sleep(1)
         print("...")
         console.print("NO:angry:", style="bold red")
-        time.sleep(7)
+        #time.sleep(7)
         print("fine")
-        time.sleep(.5)
+        #time.sleep(.5)
         print("Here you go")
-        time.sleep(1)
+        #time.sleep(1)
         webbrowser.open("https://www.dcode.fr/brainfuck-language")
-        time.sleep(.2)
-        console.print("What did you think, I was actually going to create a converter.", style="bold red")
-    
-    elif i == "text to decimal" :
+        #time.sleep(.2)
+        console.print(
+            "What did you think, I was actually going to create a converter.", style="bold red")
+
+    elif i == "text to decimal":
         text_convert()
 
-    elif i == "tts" :
+    elif i == "tts":
         ttsWords = input("\nWhich word you want to convert to speech: ")
         ttsEngine.say(ttsWords)
         ttsEngine.runAndWait()
         ttsEngine.stop()
 
-    elif i == "zen of python" :
+    elif i == "zen of python":
         ttsEngine.say(zenOfPython)
         ttsEngine.runAndWait()
         ttsEngine.stop()
 
-    elif i == "gen pass" :
+    elif i == "gen pass":
         passwordGenerator()
 
     elif i == "ascii --table":
         os.system("cls")
         console.print(asciiT)
 
-    elif i == "speedtest" :
+    elif i == "speedtest":
         SpeedTest()
 
     elif i == "calculator":
         console.print("Bruh, you just type your problem straight in the ")
 
-    elif i == "ping" :
+    elif i == "ping":
         webName = input(">>> ")
         os.system(f"ping {webName}")
 
-    elif i == "crash" :
-        while True :
+    elif i == "crash":
+        while True:
             # I have not tested this because I don't want to crash my computer
             print("Crashing.")
             print("Crashing..")
             print("Crashing...")
 
-    elif i == "cf" :
+    # Game
+    # ---------
+
+    elif i == "cf":
         crteFl()
-    
-    elif i == "del" :
+
+    elif i == "del":
         delete()
 
-    elif i  == "record voice" :
+    elif i == "record voice":
         recorder()
 
-    elif i == "donut" :
-        donut()
-
-    elif i == "telnet" :
-        try :
+    elif i == "telnet":
+        try:
             os.system("telnet telehack.com")
-        except :
-            print("Go to 'Turn Windows features on or off'\nTurn on telnet to use th== command.")
+        except:
+            print(
+                "Go to 'Turn Windows features on or off'\nTurn on telnet to use th== command.")
 
-    elif i == "python" :
+    elif i == "python":
         print("Just write 'quit()' to quit writing python")
-        os.system("python" )
+        os.system("python")
 
     elif i.isdigit():
         print(i)
 
     elif (i.startswith('"') and i.endswith('"')) or (i.startswith("'") and i.endswith("'")):
         print(i[1:-1])
-    
-    elif i == "flh" :
+
+    elif i == "flh":
         console.input("Press escape key to exit. Press enter to continue ")
         flash_light()
 
-    elif i == "help" :
+    elif i == "help":
         print(help)
 
-    elif i == "exit" :
+    elif i == "exit":
         run = False
 
     else:
-        try:
-            print(eval(i))
-        except:
-            for j, _ in enumerate(i):
-                if i[j] == ' ': ...
-        finally:
-            error(cmd)
+        print(fore.RED + "Command is NOT FOUND. This command does not EXIST or is not available" + style.RESET)
