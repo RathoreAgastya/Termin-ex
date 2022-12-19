@@ -62,7 +62,6 @@ movies               makes you download any movie you want(Still in beta so expe
 # variables
 host_name = socket.gethostname()
 local_ip = socket.gethostbyname(host_name)
-dir_path = os.path.dirname(os.path.realpath(__file__))
 camera = "start microsoft.windows.camera:"
 
 
@@ -346,7 +345,8 @@ console.print(pyfiglet.figlet_format("CMD"), style="blue")
 
 run = True
 while run:
-
+ 
+    dir_path = os.getcwd()
     cmd = input(f"\nAT {dir_path}> ")
     i = cmd.lower()
 
