@@ -70,7 +70,9 @@ This is How
 ![TheTerminalshouldrun](https://user-images.githubusercontent.com/78737482/208282158-d12dae3d-965b-4225-a5b1-2ac8a84d6fdd.png)
 
 
-## Shoutouts
+## Contributors
+[https://github.com/RathoreAgastya](![rapic](https://user-images.githubusercontent.com/78737482/208621035-30a289cd-442c-4c35-8703-fda3aee76402.png)
+)
 
 Thanks for [Jambo199](https://github.com/Jambo199) for visiting my Respository
 
