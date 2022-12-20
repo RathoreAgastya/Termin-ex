@@ -71,9 +71,9 @@ This is How
 
 
 ## Contributors
-[https://github.com/RathoreAgastya](![rapic](https://user-images.githubusercontent.com/78737482/208621035-30a289cd-442c-4c35-8703-fda3aee76402.png)
-)
 
-Thanks for [Jambo199](https://github.com/Jambo199) for visiting my Respository
+
+
+
 
 ![AGASTINALani](https://user-images.githubusercontent.com/78737482/199528559-25557e3f-f0f0-4d51-898b-35f3220eed85.gif)
