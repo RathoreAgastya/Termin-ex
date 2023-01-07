@@ -70,6 +70,8 @@ This is How
 ![TheTerminalshouldrun](https://user-images.githubusercontent.com/78737482/208282158-d12dae3d-965b-4225-a5b1-2ac8a84d6fdd.png)
 
 
+or just watch [this](https://www.youtube.com/watch?v=JEJoDzA973Y) video for a better understanding
+
 ## Contributors
 
 [Jambo199](https://github.com/Jambo199) | [RathoreAgastya](https://github.com/RathoreAgastya)
