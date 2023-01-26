@@ -78,4 +78,5 @@ or just watch [this](https://www.youtube.com/watch?v=JEJoDzA973Y) video for a be
 
 
 
-![AGASTINALani](https://user-images.githubusercontent.com/78737482/199528559-25557e3f-f0f0-4d51-898b-35f3220eed85.gif)
+![Termin-ex](https://user-images.githubusercontent.com/78737482/214818573-911e321d-5af6-494a-a1b9-6c5f56845f5e.gif)
+
