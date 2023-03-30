@@ -7,8 +7,8 @@ import socket
 import time
 import webbrowser
 import pyfiglet
+import openai
 
-import cv2
 import pygame as py
 import pyttsx3
 import speedtest
@@ -33,30 +33,31 @@ ttsEngine = pyttsx3.init()
 
 
 help = """
-python hello         shows you how to write "Hello, world!" in python
-C hello              shows you how to write "Hello, world!" in C
-java hello           shows you how to wirte "Hello, world!" in java
-ip                   shows you your ip (and no, it is not going public)
-open webcam          opens your camera
-bin                  a binary converter (all made by me)
-exit                 exit
-help                 how did you call this command if you didn't know this command
-text to decimal      converts text to decimal
-flh                  for a flash light
-tts                  convert text to speech
-crash                crashes the computer
-crtf                 creates a text file
-del                  deletes the given file
-Zen of Python        A poem about python written by Tim Peter
-gen pass             generates a random strong password
-record voice         records voice for a given amount of time
-ping                 pings website that you enter
-bf converter         oh no
-ascii --table        tells the entire ascii table
-bd                   moves back a directory
-fd                   moves to the given directory
-sd                   shows you all the files and folders in the current directory
-movies               makes you download any movie you want(Still in beta so expect it to fail sometimes)
+python hello             shows you how to write "Hello, world!" in python
+C hello                  shows you how to write "Hello, world!" in C
+java hello               shows you how to wirte "Hello, world!" in java
+ip                       shows you your ip (and no, it is not going public)
+open webcam              opens your camera
+bin                      a binary converter (all made by me)
+exit                     exit
+help                     how did you call this command if you didn't know this command
+text to decimal          converts text to decimal
+flh                      for a flash light
+tts                      convert text to speech
+crash                    crashes the computer
+crtf                     creates a text file
+del                      deletes the given file
+Zen of Python            A poem about python written by Tim Peter
+gen pass                 generates a random strong password
+record voice             records voice for a given amount of time
+ping                     pings website that you enter
+bf converter             oh no
+ascii --table            tells the entire ascii table
+bd                       moves back a directory
+fd                       moves to the given directory
+sd                       shows you all the files and folders in the current directory
+movies                   makes you download any movie you want(Still in beta so expect it to fail sometimes)
+vsc "{folder name}"      open visual studio code(if it is in the computer system) with the folder given
 """
 
 # variables
@@ -156,48 +157,36 @@ def flash_light():
     py.quit()
 
 
-def SpeedTest():
+def chatgpt(prompt):
     try:
-        test = speedtest.Speedtest(secure=True)
+        with open("apikey.txt", 'r') as f: apikey = f.read()
+    except FileNotFoundError: print("apikey.txt not found. Please create a new one.")
 
-        mixer.music.load("wait music.ogg")
-        mixer.music.set_volume(.7)
-        mixer.music.play()
+    if apikey == "":
+        with open("apikey.txt", 'w') as f:
+            f.write(input("Please give your api key: "))
+            return None
+    else: ...
 
-        download = test.download()
-        upload = test.upload()
 
-        downloadType = None
-        uploadType = None
+    openai.api_key = apikey
 
-        if (download // 1024) < 0:
-            downloadType = "KBPS"
-        elif (download // 1024) > 0:
-            downloadType = "MBPS"
-
-        if (upload // 1024) < 0:
-            uploadType = "KBPS"
-        elif (upload // 1024) > 0:
-            uploadType = "MBPS"
-
-        if downloadType == "MBPS":
-            download = (download / 1024) / 1024
-            mixer.music.stop()
-            print(f"Download speed: {download:.2f} {downloadType}")
-        else:
-            mixer.music.stop()
-            print(f"Download speed: {download:.2f} {downloadType}")
-
-        if uploadType == "MBPS":
-            upload = (upload / 1024) / 1024
-            mixer.music.stop()
-            print(f"Download speed: {upload:.2f} {uploadType}")
-        else:
-            mixer.music.stop()
-            print(f"Upload speed: {upload:.2f} {uploadType}")
+    try:
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            temperature=.9,
+            max_tokens=500,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0.6,
+        )
+        return response.choices[0].text
     except:
-        mixer.music.stop()
-        print("Error 404 forbiden")
+        print("APIkey given incorectly.")
+
+    apikey = None
+
 
 
 def passwordGenerator():
@@ -264,7 +253,7 @@ def binary_converter():
             orig_num = number
             check = False
         else:
-            console.print(f"{number} == not an integer")
+            console.print(f"{number} is not an integer")
 
     convert_lp = True
     while convert_lp:
@@ -274,7 +263,7 @@ def binary_converter():
             number = number // 2
             if number == 0:
                 binary.reverse()
-                console.print(f"{orig_num} in binary == {binary} :smile:.")
+                console.print(f"{orig_num} in binary is {binary} :smile:.")
                 convert_lp = False
             else:
                 ...
@@ -304,7 +293,7 @@ def bd():
 def crteFl():
     flnm = input("\nWhat would you like to name your file?\n")
     file = open(flnm+".txt", 'w')
-    textInFl = input("\nWhat == the text which goes in the file?\n")
+    textInFl = input("\nWhat is the text which goes in the file?\n")
     file.write(textInFl)
     file.close()
 
@@ -335,17 +324,12 @@ for _ in range(4):
     time.sleep(0.01)
     console.log("Loading terminal into command line")
 
-
-#mixer.music.load("opening jingle.ogg")
 mixer.music.set_volume(.7)
-
-#mixer.music.play()
-console.print(pyfiglet.figlet_format("CMD"), style="blue")
-#time.sleep(4)
+console.print(pyfiglet.figlet_format("AGASTINAL"), style="blue")
 
 run = True
 while run:
- 
+
     dir_path = os.getcwd()
     cmd = input(f"\nAT {dir_path}> ")
     i = cmd.lower()
@@ -363,6 +347,10 @@ while run:
         try: direc = i.split('"'); os.chdir(direc[1])
         except: console.print("Directory not found or command given incorrectly", style="bold red")
 
+    elif i.startswith("gpt "):
+        try: prompt = i.split('"'); print(chatgpt(prompt[1]))
+        except: print("Command given incorrectly.")
+
     elif i == "sd":
         os.system("dir")
 
@@ -378,10 +366,17 @@ while run:
         os.system(camera)
         console.print(f"I am watching you {host_name}😈😈😈.")
 
+    elif i.startswith('vsc "'):
+        i = i.split('"')
+        try:
+            os.system(f"code {i[1]}")
+        except:
+            print("Command given incorrectly or Visual Studio code is not in the computer system or folder not found")
+
     elif i == "ip":
         console.print(
-            f"You needed your ip I guess, because why would you call th== command unless you don't know how to access your ip\nSooooooooooooooooooooooooo\nHere you go\n{local_ip}")
 
+            f"You needed your ip I guess, because why would you call this command unless you don't know how to access your ip\nSooooooooooooooooooooooooo\nHere you go\n{local_ip}")
     elif i == "am i preety?":
         os.system(camera)
         console.print("NO!", style="bold red")
@@ -434,11 +429,8 @@ while run:
         os.system("cls")
         console.print(asciiT)
 
-    elif i == "speedtest":
-        SpeedTest()
-
     elif i == "calculator":
-        console.print("Bruh, you just type your problem straight in the ")
+        console.print("Bruh, you just type your problem straight in the command line interface")
 
     elif i == "ping":
         webName = input(">>> ")
@@ -491,4 +483,5 @@ while run:
         run = False
 
     else:
-        print(fore.RED + "Command is NOT FOUND. This command does not EXIST or is not available" + style.RESET)
+        try: print(eval(i))
+        except: print(fore.RED + "Command is NOT FOUND. This command does not EXIST or is not available" + style.RESET)
