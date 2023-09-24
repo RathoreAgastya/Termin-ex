@@ -8,17 +8,17 @@ import time
 import webbrowser
 import pyfiglet
 import openai
+import shutil
+import subprocess
 
 import pygame as py
 import pyttsx3
-import speedtest
 
 import cv2
-from mov_cli.__main__ import movcli
-from colored import colors, fore, style
 from pygame import mixer
 from rich.console import Console
 from rich.progress import track
+from cryptography.fernet import Fernet
 
 from audio import recorder
 from delete import *
@@ -33,9 +33,6 @@ ttsEngine = pyttsx3.init()
 
 
 help = """
-python hello             shows you how to write "Hello, world!" in python
-C hello                  shows you how to write "Hello, world!" in C
-java hello               shows you how to wirte "Hello, world!" in java
 ip                       shows you your ip (and no, it is not going public)
 open webcam              opens your camera
 bin                      a binary converter (all made by me)
@@ -58,12 +55,19 @@ fd                       moves to the given directory
 sd                       shows you all the files and folders in the current directory
 movies                   makes you download any movie you want(Still in beta so expect it to fail sometimes)
 vsc "{folder name}"      open visual studio code(if it is in the computer system) with the folder given
+mkdir                    creates a directory
+zip                      zips the folder that you give
+rnme                     renames the file that you give(WARNING that it only works for file)
+kill {PID}               kills the process by taking its PID(Process ID)
+cp "{fileName}"          it takes the file name and the destination and copies the file to that path
+vim                      opens up gvim inside termin-ex!
 """
 
 # variables
 host_name = socket.gethostname()
 local_ip = socket.gethostbyname(host_name)
 camera = "start microsoft.windows.camera:"
+vimPath = "Vim\\vim82\\vim.exe"
 
 
 
@@ -155,37 +159,6 @@ def flash_light():
         py.display.update()
 
     py.quit()
-
-
-def chatgpt(prompt):
-    try:
-        with open("apikey.txt", 'r') as f: apikey = f.read()
-    except FileNotFoundError: print("apikey.txt not found. Please create a new one.")
-
-    if apikey == "":
-        with open("apikey.txt", 'w') as f:
-            f.write(input("Please give your api key: "))
-            return None
-    else: ...
-
-
-    openai.api_key = apikey
-
-    try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
-            temperature=.9,
-            max_tokens=500,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0.6,
-        )
-        return response.choices[0].text
-    except:
-        print("APIkey given incorectly.")
-
-    apikey = None
 
 
 
@@ -290,6 +263,7 @@ def bd():
     os.chdir(crd)
 
 
+
 def crteFl():
     flnm = input("\nWhat would you like to name your file?\n")
     file = open(flnm+".txt", 'w')
@@ -324,8 +298,8 @@ for _ in range(4):
     time.sleep(0.01)
     console.log("Loading terminal into command line")
 
-mixer.music.set_volume(.7)
-console.print(pyfiglet.figlet_format("AGASTINAL"), style="blue")
+print(pyfiglet.figlet_format("TERMIN-EX"))
+time.sleep(1)
 
 run = True
 while run:
@@ -334,11 +308,13 @@ while run:
     cmd = input(f"\nAT {dir_path}> ")
     i = cmd.lower()
 
-    if i == "python hello":
-        console.print('print("Hello, world!")', style="bold green")
+    if i == "vim":
+        try: os.startfile(vimPath)
+        except FileNotFoundError: console.print(f"Error: {vimPath} not found", style="bold red")
 
-    elif i == "movies":
-        movcli()
+    elif i == "mkdir":
+        dirName = input(">>>")
+        os.system(f"mkdir {dirName}")
 
     elif i == "bd":
         bd()
@@ -347,16 +323,24 @@ while run:
         try: direc = i.split('"'); os.chdir(direc[1])
         except: console.print("Directory not found or command given incorrectly", style="bold red")
 
-    elif i.startswith("gpt "):
-        try: prompt = i.split('"'); print(chatgpt(prompt[1]))
-        except: print("Command given incorrectly.")
-
     elif i == "sd":
         os.system("dir")
 
     elif i == "c hello":
         console.print(
             '#include <stdio.h>\n\nint main()\n{\n    printf("Hello, world!");\n   return 0;\n}', style="bold green")
+
+    elif i.startswith("cp \""):
+        filenm = i.split('"')
+        desti = input("destination: ")
+        shutil.copyfile(filenm[1], desti)
+
+    elif i == "rnme":
+        try:
+            fileName = input(">>>")
+            newName = input("New name: ")
+            os.rename(fileName, newName)
+        except: console.print("Directory not found or command given incorrectly", style="bold red")
 
     elif i == "java hello":
         console.print(
@@ -393,29 +377,39 @@ while run:
 
     elif i == "bf converter":
         print("NO, WE ARE NOT DOING THAT")
-        #time.sleep(2)
+        time.sleep(2)
         print("no no no no no no cant here you\nWhat, a python intrepeter")
-        #time.sleep(1)
+        time.sleep(1)
         print("...")
         console.print("NO:angry:", style="bold red")
-        #time.sleep(7)
+        time.sleep(7)
         print("fine")
-        #time.sleep(.5)
+        time.sleep(.5)
         print("Here you go")
-        #time.sleep(1)
+        time.sleep(1)
         webbrowser.open("https://www.dcode.fr/brainfuck-language")
-        #time.sleep(.2)
+        time.sleep(.2)
         console.print(
             "What did you think, I was actually going to create a converter.", style="bold red")
 
     elif i == "text to decimal":
         text_convert()
 
+    elif i.startswith("kill "):
+        pid = i.split()
+        try: os.system(f"taskkill /PID {pid[1]}")
+        except: console.print("Directory not found or command given incorrectly", style="bold red")
+
     elif i == "tts":
         ttsWords = input("\nWhich word you want to convert to speech: ")
         ttsEngine.say(ttsWords)
         ttsEngine.runAndWait()
         ttsEngine.stop()
+
+    elif i == "zip":
+        zipName = input(">>> ")
+        try: shutil.make_archive(zipName, "zip", zipName)
+        except: console.print("Directory not found or command given incorrectly", style="bold red")
 
     elif i == "zen of python":
         ttsEngine.say(zenOfPython)
@@ -436,17 +430,7 @@ while run:
         webName = input(">>> ")
         os.system(f"ping {webName}")
 
-    elif i == "crash":
-        while True:
-            # I have not tested this because I don't want to crash my computer
-            print("Crashing.")
-            print("Crashing..")
-            print("Crashing...")
-
-    # Game
-    # ---------
-
-    elif i == "cf":
+    elif i == "crtf":
         crteFl()
 
     elif i == "del":
@@ -484,4 +468,4 @@ while run:
 
     else:
         try: print(eval(i))
-        except: print(fore.RED + "Command is NOT FOUND. This command does not EXIST or is not available" + style.RESET)
+        except: print("Command is NOT FOUND. This command does not EXIST or is not available")
