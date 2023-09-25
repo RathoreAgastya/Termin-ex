@@ -1,3 +1,4 @@
+
 from __future__ import annotations
 
 import ctypes
@@ -310,7 +311,7 @@ while run:
 
     if i == "vim":
         try: os.startfile(vimPath)
-        except FileNotFoundError: console.print(f"Error: {vimPath} not found", style="bold red")
+        except FileNotFoundError: print("Installing vim\nWatch this video to find out what to do"); webbrowser.open("https://youtu.be/CLr5RMAoRtE"); time.sleep(10); os.startfile("vim.exe")
 
     elif i == "mkdir":
         dirName = input(">>>")
