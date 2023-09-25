@@ -10,32 +10,15 @@ This is some cool things about it:
 
 - Shoutout to [Coolstormaction](https://github.com/Coolstormaction) for giving inspiration with his [Unix-commands-clone](https://github.com/Coolstormaction/unix-commands-clone)
 
-### For all the non-python users. I will make a separate repository with an .exe file in it.
+# v2.0.1
 
-Also for all python users, all the pip commands are written at the top in a multi-line comment :)
+Change logs:
+- Removal of gpt command 🤖
+- Addtion of 5 new commands. mkdir, zip, rnme, kill, cp 📰
+- New start up figlet format name 🏞️
+- Addition of gVim to Termin-ex 🧑‍💻
+- Bug fixes 🐛
 
-# BETA 2.0
-
-New update have been rolled out
-It has the following features:
-
-- New directory changing commands
-
-- bd command to go back a directory
-
-- fd command to go forward a direcotry
-
-- sd command to show all directory and files in the current directory
-
-- help command spelling fixed
-
-- Contact me in Discord for further bugs and QnA: Agastya Rathore#7426
-
-
-# FULL RELEASE 
-
-- FROM NOW ON YOU CAN USE THE TERMINAL RIGHT FROM CMD
-This is How
 
 ## How to set up the AGASTINAL
 
@@ -70,13 +53,8 @@ This is How
 ![TheTerminalshouldrun](https://user-images.githubusercontent.com/78737482/208282158-d12dae3d-965b-4225-a5b1-2ac8a84d6fdd.png)
 
 
-or just watch [this](https://www.youtube.com/watch?v=JEJoDzA973Y) video for a better understanding
+## Shoutouts
 
-## Contributors
+Thanks for [Jambo199](https://github.com/Jambo199) for visiting my Respository
 
-[Jambo199](https://github.com/Jambo199) | [RathoreAgastya](https://github.com/RathoreAgastya)
-
-
-
-![Termin-ex](https://user-images.githubusercontent.com/78737482/214818573-911e321d-5af6-494a-a1b9-6c5f56845f5e.gif)
-
+![AGASTINALani](https://user-images.githubusercontent.com/78737482/199528559-25557e3f-f0f0-4d51-898b-35f3220eed85.gif)
