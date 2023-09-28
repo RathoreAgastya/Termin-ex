@@ -57,4 +57,5 @@ Change logs:
 
 Thanks for [Jambo199](https://github.com/Jambo199) for visiting my Respository
 
-![AGASTINALani](https://user-images.githubusercontent.com/78737482/199528559-25557e3f-f0f0-4d51-898b-35f3220eed85.gif)
+![Termin-exAni](https://github.com/RathoreAgastya/Termin-ex/assets/78737482/d942731e-f713-4acd-9d44-b08a242304b8)
+
